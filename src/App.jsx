@@ -1,11 +1,12 @@
 import { useState } from 'react'
+import Timetable from './components/Timetable'
 
 function App() {
   const [activeMenu, setActiveMenu] = useState('STUDY')
   const [selectedSubject, setSelectedSubject] = useState(null)
   const [showSyllabus, setShowSyllabus] = useState(false)
 
-  const menuOptions = ['STUDY', 'PRACTICE', 'PROJECTS', 'RESOURCES', 'COMMUNITY']
+  const menuOptions = ['STUDY', 'TRANSPORT', 'CLUBS', 'CONTACTS', 'TIME TABLE']
 
   const semesterData = {
     semester1: {
@@ -53,25 +54,25 @@ function App() {
       description: 'Learn and explore comprehensive study materials designed to enhance your knowledge.',
       icon: '📚'
     },
-    PRACTICE: {
-      title: 'Practice Problems',
-      description: 'Sharpen your skills with challenging practice problems and coding exercises.',
-      icon: '💻'
+    TRANSPORT: {
+      title: 'Transport',
+      description: 'View transportation options, schedules, and routes available for campus travel.',
+      icon: '🚗'
     },
-    PROJECTS: {
-      title: 'Projects',
-      description: 'Build real-world projects and add them to your portfolio.',
-      icon: '🛠️'
+    CLUBS: {
+      title: 'Clubs',
+      description: 'Discover various clubs and student organizations on campus.',
+      icon: '🎭'
     },
-    RESOURCES: {
-      title: 'Learning Resources',
-      description: 'Access curated links, documentation, and helpful learning resources.',
-      icon: '📖'
+    CONTACTS: {
+      title: 'Contacts',
+      description: 'Find contact information for departments, faculty, and support services.',
+      icon: '📞'
     },
-    COMMUNITY: {
-      title: 'Community',
-      description: 'Connect with other learners, share ideas, and get help from the community.',
-      icon: '👥'
+    'TIME TABLE': {
+      title: 'Time Table',
+      description: 'View your personalized timetable and schedule.',
+      icon: '📅'
     }
   }
 
@@ -117,7 +118,9 @@ function App() {
 
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-6 py-16">
-        {activeMenu === 'STUDY' ? (
+        {activeMenu === 'TIME TABLE' ? (
+          <Timetable />
+        ) : activeMenu === 'STUDY' ? (
           // Study Materials Section with Submenu
           <div className="space-y-8">
             {!selectedSubject ? (
@@ -257,8 +260,92 @@ function App() {
               </div>
             )}
           </div>
+        ) : activeMenu === 'TRANSPORT' ? (
+          // Transport Section
+          <div className="space-y-8 animate-fadeIn">
+            {/* Content Header */}
+            <div className="text-center space-y-4">
+              <div className="text-6xl mb-4">🚗</div>
+              <h1 className="text-5xl font-bold text-white">Transport</h1>
+              <p className="text-xl text-slate-300 max-w-2xl mx-auto">View transportation options, schedules, and routes available for campus travel</p>
+            </div>
+
+            {/* Content Cards */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-12">
+              {[1, 2, 3, 4, 5, 6].map((item) => (
+                <div
+                  key={item}
+                  className="bg-slate-800 rounded-lg p-6 border border-slate-700 hover:border-blue-400 transition-all duration-300 hover:shadow-lg hover:shadow-blue-400/20 cursor-pointer group"
+                >
+                  <div className="text-3xl mb-3 group-hover:scale-110 transition-transform duration-300">🚗</div>
+                  <h3 className="text-lg font-semibold text-white mb-2">Transport Route {item}</h3>
+                  <p className="text-slate-400 text-sm mb-4">View schedule and details for this transport route.</p>
+                  <button className="text-blue-400 hover:text-blue-300 font-semibold text-sm flex items-center space-x-2 group-hover:space-x-3 transition-all duration-300">
+                    <span>View Details</span>
+                    <span>→</span>
+                  </button>
+                </div>
+              ))}
+            </div>
+          </div>
+        ) : activeMenu === 'CLUBS' ? (
+          // Clubs Section
+          <div className="space-y-8 animate-fadeIn">
+            {/* Content Header */}
+            <div className="text-center space-y-4">
+              <div className="text-6xl mb-4">🎭</div>
+              <h1 className="text-5xl font-bold text-white">Clubs</h1>
+              <p className="text-xl text-slate-300 max-w-2xl mx-auto">Discover various clubs and student organizations on campus</p>
+            </div>
+
+            {/* Content Cards */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-12">
+              {[1, 2, 3, 4, 5, 6].map((item) => (
+                <div
+                  key={item}
+                  className="bg-slate-800 rounded-lg p-6 border border-slate-700 hover:border-blue-400 transition-all duration-300 hover:shadow-lg hover:shadow-blue-400/20 cursor-pointer group"
+                >
+                  <div className="text-3xl mb-3 group-hover:scale-110 transition-transform duration-300">🎭</div>
+                  <h3 className="text-lg font-semibold text-white mb-2">Club {item}</h3>
+                  <p className="text-slate-400 text-sm mb-4">Join this club to explore activities and events.</p>
+                  <button className="text-blue-400 hover:text-blue-300 font-semibold text-sm flex items-center space-x-2 group-hover:space-x-3 transition-all duration-300">
+                    <span>Learn More</span>
+                    <span>→</span>
+                  </button>
+                </div>
+              ))}
+            </div>
+          </div>
+        ) : activeMenu === 'CONTACTS' ? (
+          // Contacts Section
+          <div className="space-y-8 animate-fadeIn">
+            {/* Content Header */}
+            <div className="text-center space-y-4">
+              <div className="text-6xl mb-4">📞</div>
+              <h1 className="text-5xl font-bold text-white">Contacts</h1>
+              <p className="text-xl text-slate-300 max-w-2xl mx-auto">Find contact information for departments, faculty, and support services</p>
+            </div>
+
+            {/* Content Cards */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-12">
+              {[1, 2, 3, 4, 5, 6].map((item) => (
+                <div
+                  key={item}
+                  className="bg-slate-800 rounded-lg p-6 border border-slate-700 hover:border-blue-400 transition-all duration-300 hover:shadow-lg hover:shadow-blue-400/20 cursor-pointer group"
+                >
+                  <div className="text-3xl mb-3 group-hover:scale-110 transition-transform duration-300">📞</div>
+                  <h3 className="text-lg font-semibold text-white mb-2">Contact {item}</h3>
+                  <p className="text-slate-400 text-sm mb-4">Get in touch with this department or service.</p>
+                  <button className="text-blue-400 hover:text-blue-300 font-semibold text-sm flex items-center space-x-2 group-hover:space-x-3 transition-all duration-300">
+                    <span>View Contact</span>
+                    <span>→</span>
+                  </button>
+                </div>
+              ))}
+            </div>
+          </div>
         ) : (
-          // Other Menu Items (PRACTICE, PROJECTS, RESOURCES, COMMUNITY)
+          // Fallback for any other menu items
           <div className="space-y-8 animate-fadeIn">
             {/* Content Header */}
             <div className="text-center space-y-4">
