@@ -1,5 +1,5 @@
 import { Bus, MapPin, Clock } from 'lucide-react';
-import { BUS_SCHEDULES } from '../data/transportData';
+import { BUS_SCHEDULES, STOPS } from '../data/transportData';
 
 export default function Transport() {
   return (
@@ -8,10 +8,10 @@ export default function Transport() {
       <div className="text-center space-y-4">
         <div className="text-6xl mb-4">🚌</div>
         <h1 className="text-5xl font-bold text-white">Transport Schedule</h1>
-        <p className="text-xl text-slate-300">Bus timings for all stops and categories</p>
+        <p className="text-xl text-slate-300">Bus timings across all stops</p>
       </div>
 
-      {/* Bus Schedules Grid */}
+      {/* Bus Schedules */}
       <div className="space-y-8">
         {BUS_SCHEDULES.map((schedule) => (
           <div key={schedule.id} className="bg-slate-800/50 rounded-lg p-8 border border-slate-700">
@@ -30,42 +30,53 @@ export default function Transport() {
               <div className="mt-4 h-1 bg-gradient-to-r from-blue-600 via-purple-600 to-transparent rounded-full"></div>
             </div>
 
-            {/* Timings Table */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-              {Object.entries(schedule.timings).map(([stop, timings]) => (
-                <div
-                  key={stop}
-                  className="bg-slate-700/50 rounded-lg p-6 border border-slate-600 hover:border-blue-500/50 transition-colors duration-300"
-                >
-                  {/* Stop Name */}
-                  <div className="flex items-start gap-2 mb-4">
-                    <MapPin className="w-5 h-5 text-red-400 flex-shrink-0 mt-0.5" />
-                    <div>
-                      <h3 className="text-lg font-bold text-white">{stop}</h3>
-                      <div className="w-full h-0.5 bg-gradient-to-r from-red-400 to-transparent mt-2"></div>
-                    </div>
-                  </div>
-
-                  {/* Timings List */}
-                  <div className="space-y-2">
-                    {timings.length > 0 ? (
-                      timings.map((time, idx) => (
-                        <div
-                          key={idx}
-                          className="flex items-center gap-3 py-2 px-3 rounded-lg bg-slate-600/30 border border-slate-600/50 hover:bg-slate-600/50 transition-colors"
-                        >
-                          <div className="w-2 h-2 bg-green-400 rounded-full"></div>
-                          <span className="text-slate-200 font-mono font-semibold">{time}</span>
+            {/* Horizontal Bus Runs Table */}
+            <div className="overflow-x-auto">
+              <table className="w-full border-collapse">
+                {/* Stop Headers */}
+                <thead>
+                  <tr>
+                    {STOPS.map((stop) => (
+                      <th key={stop} className="bg-slate-700/50 text-center px-4 py-3 border-b border-slate-600 text-slate-200 font-semibold whitespace-nowrap">
+                        <div className="flex items-center justify-center gap-1">
+                          <MapPin className="w-4 h-4 text-red-400" />
+                          <span className="text-sm">{stop}</span>
                         </div>
-                      ))
-                    ) : (
-                      <div className="py-2 px-3 text-slate-500 text-sm italic">
-                        No buses scheduled
-                      </div>
-                    )}
-                  </div>
-                </div>
-              ))}
+                      </th>
+                    ))}
+                  </tr>
+                </thead>
+
+                {/* Bus Runs as Rows */}
+                <tbody>
+                  {/* Generate rows for maximum timings across all stops */}
+                  {Array.from({
+                    length: Math.max(...STOPS.map(stop => schedule.timings[stop]?.length || 0))
+                  }).map((_, runIndex) => (
+                    <tr key={runIndex} className="hover:bg-slate-700/30 transition-colors">
+                      {/* Timing for each stop */}
+                      {STOPS.map((stop) => {
+                        const timing = schedule.timings[stop]?.[runIndex];
+                        return (
+                          <td
+                            key={`${stop}-${runIndex}`}
+                            className="text-center px-4 py-3 border-b border-slate-600/30 text-slate-200"
+                          >
+                            {timing ? (
+                              <div className="flex items-center justify-center gap-2">
+                                <div className="w-2 h-2 bg-green-400 rounded-full"></div>
+                                <span className="font-mono font-semibold text-sm">{timing}</span>
+                              </div>
+                            ) : (
+                              <span className="text-slate-500 text-xs italic">—</span>
+                            )}
+                          </td>
+                        );
+                      })}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             </div>
           </div>
         ))}
@@ -74,7 +85,7 @@ export default function Transport() {
       {/* Info Box */}
       <div className="bg-slate-800 rounded-lg p-6 border border-slate-700">
         <p className="text-slate-300">
-          💡 <span className="font-semibold">Note:</span> Staff buses have different schedules for weekdays, weekends, and holidays. Student buses run with the same timings throughout the week (Monday to Sunday).
+          💡 <span className="font-semibold">Note:</span> Each row represents one bus run across all stops. Timings are synchronized horizontally - left to right shows the bus journey from one stop to the next. Staff buses have different schedules for weekdays, weekends, and holidays. Student buses run with the same timings throughout the week.
         </p>
       </div>
     </div>

@@ -38,9 +38,9 @@ export default function Lecture({
       className={`relative p-4 rounded-lg bg-slate-800 ${borderClasses} shadow-md hover:scale-[1.01] transition-transform duration-300`}
       style={{ wordBreak: 'break-word' }}
     >
-      <div className="flex items-center gap-2 text-xs text-slate-400 mb-2">
+      <div className="flex items-center gap-2 text-s text-slate-100 mb-2">
         <Calendar className="h-3 w-3" />
-        <span>{startTime} - {endTime}</span>
+        <span className="font-extrabold ">{startTime} - {endTime}</span>
         <div className="flex-1 border-t border-slate-600 mx-2" />
       </div>
 
