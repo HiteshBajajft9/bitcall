@@ -1,10 +1,10 @@
 import { useState } from 'react'
-import { Timetable, Transport, Study } from './components'
+import { Timetable, Transport, Study, Attendance } from './components'
 
 function App() {
   const [activeMenu, setActiveMenu] = useState('STUDY')
 
-  const menuOptions = ['STUDY', 'TRANSPORT', 'CLUBS', 'CONTACTS', 'TIME TABLE']
+  const menuOptions = ['STUDY', 'TRANSPORT', 'CLUBS', 'ATTENDANCE', 'TIME TABLE']
 
   const menuContent = {
     STUDY: {
@@ -22,10 +22,10 @@ function App() {
       description: 'Discover various clubs and student organizations on campus.',
       icon: '🎭'
     },
-    CONTACTS: {
-      title: 'Contacts',
-      description: 'Find contact information for departments, faculty, and support services.',
-      icon: '📞'
+    ATTENDANCE: {
+      title: 'Attendance',
+      description: 'Track your class attendance and maintain 75% eligibility for exams.',
+      icon: '📋'
     },
     'TIME TABLE': {
       title: 'Time Table',
@@ -110,34 +110,8 @@ function App() {
               ))}
             </div>
           </div>
-        ) : activeMenu === 'CONTACTS' ? (
-          // Contacts Section
-          <div className="space-y-8 animate-fadeIn">
-            {/* Content Header */}
-            <div className="text-center space-y-4">
-              <div className="text-6xl mb-4">📞</div>
-              <h1 className="text-5xl font-bold text-white">Contacts</h1>
-              <p className="text-xl text-slate-300 max-w-2xl mx-auto">Find contact information for departments, faculty, and support services</p>
-            </div>
-
-            {/* Content Cards */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-12">
-              {[1, 2, 3, 4, 5, 6].map((item) => (
-                <div
-                  key={item}
-                  className="bg-slate-800 rounded-lg p-6 border border-slate-700 hover:border-blue-400 transition-all duration-300 hover:shadow-lg hover:shadow-blue-400/20 cursor-pointer group"
-                >
-                  <div className="text-3xl mb-3 group-hover:scale-110 transition-transform duration-300">📞</div>
-                  <h3 className="text-lg font-semibold text-white mb-2">Contact {item}</h3>
-                  <p className="text-slate-400 text-sm mb-4">Get in touch with this department or service.</p>
-                  <button className="text-blue-400 hover:text-blue-300 font-semibold text-sm flex items-center space-x-2 group-hover:space-x-3 transition-all duration-300">
-                    <span>View Contact</span>
-                    <span>→</span>
-                  </button>
-                </div>
-              ))}
-            </div>
-          </div>
+        ) : activeMenu === 'ATTENDANCE' ? (
+          <Attendance />
         ) : (
           // Fallback for any other menu items
           <div className="space-y-8 animate-fadeIn">
